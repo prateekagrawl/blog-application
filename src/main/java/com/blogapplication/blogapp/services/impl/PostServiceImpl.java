@@ -87,6 +87,7 @@ public class PostServiceImpl implements PostService {
         else
             sort = Sort.by(sortBy).descending();
 
+        //logic to implement pagination
         Pageable p = PageRequest.of(pageNumber,pageSize, sort);
         Page<Post> pagePost = this.postRepo.findAll(p);
 
