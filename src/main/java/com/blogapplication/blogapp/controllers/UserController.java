@@ -1,14 +1,11 @@
 package com.blogapplication.blogapp.controllers;
 
-import com.blogapplication.blogapp.entity.User;
 import com.blogapplication.blogapp.payloads.ApiResponse;
 import com.blogapplication.blogapp.payloads.UserDto;
 import com.blogapplication.blogapp.services.UserService;
 import jakarta.validation.Valid;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +33,8 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Integer userId){
-        this.userService.deleteUser(userId);
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uId){
+        this.userService.deleteUser(uId);
         return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted Successfully", true),HttpStatus.OK);
     }
 

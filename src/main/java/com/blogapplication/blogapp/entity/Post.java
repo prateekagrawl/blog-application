@@ -1,5 +1,6 @@
 package com.blogapplication.blogapp.entity;
 
+import com.blogapplication.blogapp.payloads.CommentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,10 +32,10 @@ public class Post {
 
     private Date addedDate;
 
-    //many posts in one category
+    //many posts can be present in one category
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category; //used to get which category has added the post
+    private Category category;
 
     @ManyToOne
     private User user;

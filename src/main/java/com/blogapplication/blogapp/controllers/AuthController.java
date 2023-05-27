@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,25 +44,22 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception{
-
-        //authenticate the user - done via AuthenticationManager bean
-        this.authenticate(request.getUsername(),request.getPassword());
-
+        this.authenticate(request.getUsername(), request.getPassword());
         UserDetails userDetails = this.userDetailService.loadUserByUsername(request.getUsername());
-
-        //get token
         String token = this.jwtTokenHelper.generateToken(userDetails);
 
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
-        jwtAuthResponse.setToken(token);
-        jwtAuthResponse.setUser(this.modelMapper.map((User) userDetails, UserDto.class));
+        JwtAuthResponse response = new JwtAuthResponse();
+        response.setToken(token);
+        response.setUser(this.modelMapper.map((User) userDetails, UserDto.class));
+        return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
 
-        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
 
     private void authenticate(String username, String password) throws Exception {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(username,password);
+        System.out.println("Token: "+usernamePasswordAuthenticationToken);
+
         try{
             this.authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         }
@@ -71,7 +69,6 @@ public class AuthController {
         }
     }
 
-    //register new user api
     @PostMapping("/register")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
         UserDto registeredUser = this.userService.registerNewUser(userDto);

@@ -1,7 +1,6 @@
 package com.blogapplication.blogapp.payloads;
 
-import com.blogapplication.blogapp.entity.Role;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -17,8 +16,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class UserDto {
 
-    private int id;
-
     @NotEmpty
     @Size(min = 4, message = "Username must have a minimum of 4 characters")
     private String name;
@@ -28,6 +25,7 @@ public class UserDto {
 
     @NotEmpty
     @Size(min = 3, max =10, message = "Password must have minimum of 3 characters and max 10 characters")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotEmpty

@@ -8,16 +8,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BlogAppApplicationTests {
 
-	@Autowired
-	private UserRepo userRepo;
+//	@Autowired
+//	private UserRepo userRepo;
 
-	@Test
-	void contextLoads() {
-	}
+//	@Test
+//	void contextLoads() {
+//	}
 
-	@Test
-	void repoTest(){
-		String className = this.userRepo.getClass().getName();
-		System.out.println(className);
-	}
+//	@Test
+//	void repoTest(){
+//		String className = this.userRepo.getClass().getName();
+//		String packageName = this.userRepo.getClass().getPackageName();
+//		System.out.println(className);
+//		System.out.println(packageName);
+//	}
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PostRepo extends JpaRepository<Post,Integer> {
 
-    List<Post> findByUser(User user);
+    List<Post> findByUser(User user); //since multiple posts will be found in one User(that's why List<Post>
 
     List<Post> findByCategory(Category category);
 

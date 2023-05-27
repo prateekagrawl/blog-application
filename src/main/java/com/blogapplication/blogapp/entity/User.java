@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,23 +31,21 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>(); //one user can do multiple posts
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
                 joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
                 inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
-    @Override
+    @Override //convert all roles to SimpleGrantedAuthority
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority > authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        List<SimpleGrantedAuthority > authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.getName()))
+                                                    .collect(Collectors.toList());
         return authorities;
     }
 
     @Override
-    public String getUsername() {
+    public String getUsername() { //returns email-> username
         return this.email;
     }
 

@@ -26,7 +26,7 @@ public class Category {
     private String categoryDescription;
 
     //one category can have multiple posts
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
 

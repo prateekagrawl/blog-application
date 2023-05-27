@@ -74,7 +74,6 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("Post","id", postId));
 
         this.postRepo.delete(post);
-
     }
 
     @Override
@@ -88,15 +87,16 @@ public class PostServiceImpl implements PostService {
             sort = Sort.by(sortBy).descending();
 
         //logic to implement pagination
-        Pageable p = PageRequest.of(pageNumber,pageSize, sort);
-        Page<Post> pagePost = this.postRepo.findAll(p);
+        Pageable p = PageRequest.of(pageNumber,pageSize, sort); //get Pageable objects
+        Page<Post> pagePost = this.postRepo.findAll(p); //contains all the information related to posts and page
 
-        List<Post> allPosts = pagePost.getContent();
+        List<Post> allPosts = pagePost.getContent(); //get content of that specific page
 
         List<PostDto> postsDto = allPosts.stream()
                 .map(post->this.modelMapper.map(post,PostDto.class))
                 .collect(Collectors.toList());
 
+        //return all the content as a PostResponse
         PostResponse postResponse = new PostResponse();
 
         //set page response
@@ -123,13 +123,13 @@ public class PostServiceImpl implements PostService {
         Category category = this.categoryRepo.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
 
-        List<Post> postsByCategory = this.postRepo.findByCategory(category);
+        List<Post> postsOfCategory = this.postRepo.findByCategory(category);
 
-        List<PostDto> postsDtoByCategory = postsByCategory.stream()
-                                        .map(post -> this.modelMapper.map(post,PostDto.class) )
-                                        .collect(Collectors.toList());
+        List<PostDto> postDtos = postsOfCategory.stream()
+                .map(post -> this.modelMapper.map(post,PostDto.class))
+                .collect(Collectors.toList());
 
-        return postsDtoByCategory;
+        return postDtos;
     }
 
     @Override

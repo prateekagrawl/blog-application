@@ -10,6 +10,7 @@ import com.blogapplication.blogapp.repository.UserRepo;
 import com.blogapplication.blogapp.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +38,11 @@ public class UserServiceImpl implements UserService {
 
         //encode the password
         user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
-
-        //roles to be added as well - by default a normal user
+        //by default a normal user Role to be added
         Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
-
         user.getRoles().add(role);
 
         User savedUser = this.userRepo.save(user);
-
         return this.modelMapper.map(savedUser,UserDto.class);
     }
 
@@ -102,36 +100,13 @@ public class UserServiceImpl implements UserService {
 
     //to convert UserDto to User
     private User dtoToUser(UserDto userDto){
-        //using model mapper- new method
         User user = this.modelMapper.map(userDto,User.class);
-
-//        old method
-
-//        User user = new User();
-//        user.setId(userDto.getId());
-//        user.setName(userDto.getName());
-//        user.setPassword(userDto.getPassword());
-//        user.setEmail(userDto.getEmail());
-//        user.setAbout(userDto.getAbout());
-
-
         return user;
     }
 
     //to convert User to UserDto
     private UserDto userToDto(User user){
-        //new method
         UserDto userDto = this.modelMapper.map(user,UserDto.class);
-
-//        old method
-
-//        UserDto userDto = new UserDto();
-//        userDto.setId(user.getId());
-//        userDto.setName(user.getName());
-//        userDto.setEmail(user.getEmail());
-//        userDto.setPassword(user.getPassword());
-//        userDto.setAbout(user.getAbout());
-
         return userDto;
     }
 }

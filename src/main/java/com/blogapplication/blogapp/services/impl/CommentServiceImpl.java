@@ -16,7 +16,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private PostRepo postRepo;
-
     @Autowired
     private CommentRepo commentRepo;
     @Autowired
@@ -33,7 +32,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(post);
 
         Comment savedComment = this.commentRepo.save(comment);
-
         return this.modelMapper.map(savedComment,CommentDto.class);
     }
 

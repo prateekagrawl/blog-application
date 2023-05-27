@@ -1,6 +1,5 @@
 package com.blogapplication.blogapp.controllers;
 
-import com.blogapplication.blogapp.entity.Category;
 import com.blogapplication.blogapp.payloads.ApiResponse;
 import com.blogapplication.blogapp.payloads.CategoryDto;
 import com.blogapplication.blogapp.services.CategoryService;
