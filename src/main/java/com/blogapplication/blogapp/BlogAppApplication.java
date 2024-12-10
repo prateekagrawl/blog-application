@@ -1,6 +1,7 @@
 package com.blogapplication.blogapp;
 
 import com.blogapplication.blogapp.config.AppConstants;
+import com.blogapplication.blogapp.entity.Employee;
 import com.blogapplication.blogapp.entity.Role;
 import com.blogapplication.blogapp.repository.RoleRepo;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,8 @@ public class BlogAppApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppApplication.class, args);
+		Employee emp = new Employee("John");
+		System.out.println(emp);
 	}
 
 	@Bean
